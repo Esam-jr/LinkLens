@@ -49,7 +49,6 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-
   { timestamps: true }
 );
 
@@ -63,6 +62,14 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
+
+userSchema.methods.comparePassword = async function (password) {
+  try {
+    return await bycrypt.compare(password, this.password);
+  } catch (error) {
+    throw new Error("Password comparison failed");
+  }
+};
 
 const User = mongoose.model("User", userSchema);
 
