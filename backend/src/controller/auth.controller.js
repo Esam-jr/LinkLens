@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-
+import { upsertStreamUser } from "../lib/stream.js";
 export async function signup(req, res) {
   const { fullName, email, password } = req.body;
 
@@ -39,6 +39,12 @@ export async function signup(req, res) {
     });
 
     await newUser.save();
+
+    await upsertStreamUser({
+      id: newUser._id.toString(),
+      name: newUser.fullName,
+      image: newUser.profilePic || "",
+    });
 
     const token = jwt.sign({ userid: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
