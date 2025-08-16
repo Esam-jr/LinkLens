@@ -58,7 +58,7 @@ export async function signup(req, res) {
       token,
     });
   } catch (error) {
-    console.log("Error in Signup controller");
+    console.log("Error in Signup controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -69,7 +69,7 @@ export async function login(req, res) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
@@ -79,7 +79,7 @@ export async function login(req, res) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ userid: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -96,7 +96,7 @@ export async function login(req, res) {
       token,
     });
   } catch (error) {
-    console.log("Error in Login controller");
+    console.log("Error in Login controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
