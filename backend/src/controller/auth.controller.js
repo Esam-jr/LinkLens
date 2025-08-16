@@ -1,5 +1,5 @@
-import { json } from "express";
-import User from "./../models/User.js";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 export async function signup(req, res) {
   const { fullName, email, password } = req.body;
@@ -22,7 +22,8 @@ export async function signup(req, res) {
         .json({ message: "Please enter a valid email address" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const emailLower = email.toLowerCase();
+    const existingUser = await User.findOne({ email: emailLower });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -32,13 +33,12 @@ export async function signup(req, res) {
 
     const newUser = new User({
       fullName,
-      email,
+      email: emailLower,
       password,
       profilePic: randomAvatar,
     });
 
     await newUser.save();
-    // TODO: CREATE THE USER IN STEAM AS WELL
 
     const token = jwt.sign({ userid: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -46,22 +46,26 @@ export async function signup(req, res) {
 
     res.cookie("jwt", token, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
 
+    const safeUser = newUser.toObject();
+    delete safeUser.password;
+
     res.status(201).json({
       success: true,
-      message: `User created successfully`,
-      user: newUser,
+      message: "User created successfully",
+      user: safeUser,
       token,
     });
   } catch (error) {
-    console.log("Error in Signup controller", error);
+    console.error("Error in Signup controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
@@ -69,13 +73,15 @@ export async function login(req, res) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() }).select(
+      "+password"
+    );
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const isPasswordCorect = await user.comparePassword(password);
-    if (!isPasswordCorect) {
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
@@ -85,21 +91,26 @@ export async function login(req, res) {
 
     res.cookie("jwt", token, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
+
+    const safeUser = user.toObject();
+    delete safeUser.password;
+
     res.status(200).json({
       success: true,
-      message: `User logged in successfully`,
-      user,
+      message: "User logged in successfully",
+      user: safeUser,
       token,
     });
   } catch (error) {
-    console.log("Error in Login controller", error);
+    console.error("Error in Login controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 export function logout(req, res) {
   try {
     res.clearCookie("jwt");
@@ -107,7 +118,7 @@ export function logout(req, res) {
       .status(200)
       .json({ success: true, message: "User logged out successfully" });
   } catch (error) {
-    console.log("Error in Logout controller", error);
+    console.error("Error in Logout controller", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
