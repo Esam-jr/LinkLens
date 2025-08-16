@@ -39,7 +39,7 @@ export async function signup(req, res) {
 
     // TODO: CREATE THE USER IN STEAM AS WELL
 
-    const token = json.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userid: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
