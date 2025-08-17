@@ -130,7 +130,7 @@ export async function getFriendRequests(req, res) {
   try {
     const userId = req.user._id;
 
-    const incommingReqs = await FriendRequest.find({
+    const incomingReqs = await FriendRequest.find({
       recipient: userId,
       status: "pending",
     }).populate(
@@ -143,11 +143,33 @@ export async function getFriendRequests(req, res) {
       status: "accepted",
     }).populate("recipient", "fullName profilePic ");
     res.status(200).json({
-      incommingReqs,
+      incomingReqs,
       acceptedReqs,
     });
   } catch (error) {
     console.error("Error fetching friend requests:", error);
     res.status(500).json({ message: "Error fetching friend requests", error });
+  }
+}
+
+export async function getOutgoingFriendReqs(req, res) {
+  try {
+    const userId = req.user._id;
+
+    const outgoingReqs = await FriendRequest.find({
+      sender: userId,
+      status: "pending",
+    }).populate(
+      "recipient",
+      "fullName profilePic nativeLanguage learningLanguage"
+    );
+
+    res.status(200).json({ outgoingReqs });
+  } catch (error) {
+    console.error("Error fetching outgoing friend requests:", error);
+    res.status(500).json({
+      message: "Error fetching outgoing friend requests",
+      error,
+    });
   }
 }
