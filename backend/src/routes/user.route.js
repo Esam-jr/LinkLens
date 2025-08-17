@@ -3,6 +3,7 @@ import { protectRoute } from "../middleware/auth.middleware.js";
 import {
   getRecommendedUsers,
   getMyFriends,
+  sendFreindRequest,
 } from "../controllers/user.controller.js";
 
 const router = express.Router();
