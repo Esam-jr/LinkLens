@@ -88,3 +88,40 @@ export async function sendFriendRequest(req, res) {
     res.status(500).json({ message: "Error sending friend request", error });
   }
 }
+
+export async function acceptFriendRequest(req, res) {
+  try {
+    const { id: requestId } = req.params;
+    const userId = req.user._id;
+
+    const friendRequest = await FriendRequest.findById(requestId);
+    if (!friendRequest) {
+      return res.status(404).json({ message: "Friend request not found." });
+    }
+
+    if (friendRequest.recipient.toString() !== userId.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to accept this request." });
+    }
+
+    friendRequest.status = "accepted";
+    await friendRequest.save();
+
+    const senderId = friendRequest.sender;
+
+    await Promise.all([
+      User.findByIdAndUpdate(userId, {
+        $addToSet: { friends: senderId },
+      }),
+      User.findByIdAndUpdate(senderId, {
+        $addToSet: { friends: userId },
+      }),
+    ]);
+
+    res.status(200).json({ message: "Friend request accepted successfully" });
+  } catch (error) {
+    console.error("Error accepting friend request:", error);
+    res.status(500).json({ message: "Error accepting friend request", error });
+  }
+}
