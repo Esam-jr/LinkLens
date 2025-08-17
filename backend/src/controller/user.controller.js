@@ -14,12 +14,10 @@ export async function getRecommendedUsers(req, res) {
       ],
     });
 
-    res
-      .status(200)
-      .json(
-        { message: "Recommended users fetched successfully" },
-        recommendedUsers
-      );
+    res.status(200).json({
+      message: "Recommended users fetched successfully",
+      recommendedUsers,
+    });
   } catch (error) {
     console.error("Error fetching recommended users:", error);
     res
@@ -33,17 +31,17 @@ export async function getMyFriends(req, res) {
     const user = await User.findById(req.user._id)
       .select("friends")
       .populate(
-        "frends",
+        "friends",
         "fullName profilePic nativeLanguage learningLanguage"
       );
-    res.status(200).json(user.freinds);
+    res.status(200).json(user.friends);
   } catch (error) {
-    console.error("Error in getMyFreinds controller", error);
+    console.error("Error in getMyFriends controller", error);
     res.status(500).json({ message: "Error fetching friends", error });
   }
 }
 
-export async function sendFreindRequest(req, res) {
+export async function sendFriendRequest(req, res) {
   try {
     const { id: recipientId } = req.params;
     const myId = req.user._id;
@@ -54,11 +52,11 @@ export async function sendFreindRequest(req, res) {
         .json({ message: "You cannot send a friend request to yourself." });
     }
 
-    const recipient = User.findById(recipientId);
+    const recipient = await User.findById(recipientId);
     if (!recipient) {
       return res.status(404).json({ message: "Recipient not found." });
     }
-    if (recipient.freinds.includes(myId)) {
+    if (recipient.friends.includes(myId)) {
       return res
         .status(400)
         .json({ message: "You are already friends with this user." });
