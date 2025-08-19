@@ -2,13 +2,14 @@ import { Navigate, Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import OnbordingPage from "./pages/OnbordingPage";
+import OnboardingPage from "./pages/OnboardingPage.tsx";
 import Callpage from "./pages/Callpage";
 import ChatPage from "./pages/ChatPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "./lib/axios.ts";
+import PageLoader from "./components/PageLoader.tsx";
 
 function App() {
   const {
@@ -27,11 +28,7 @@ function App() {
   const authUser = authData?.user;
 
   if (isLoading) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (
@@ -51,7 +48,7 @@ function App() {
         />
         <Route
           path="/onboarding"
-          element={authUser ? <OnbordingPage /> : <Navigate to={"/login"} />}
+          element={authUser ? <OnboardingPage /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/call"
