@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Earth } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router";
-import { axiosInstance } from "../lib/axios";
+import { signup } from "../lib/api";
+import axios from "axios";
 
 function SignupPage() {
   const [signupData, setSignupData] = useState({
@@ -13,11 +14,12 @@ function SignupPage() {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.post("/auth/signup", signupData);
-      return response.data;
-    },
+  const {
+    mutate: signupMutation,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: signup,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
@@ -25,7 +27,7 @@ function SignupPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    mutate();
+    signupMutation(signupData);
   };
 
   return (
@@ -42,13 +44,33 @@ function SignupPage() {
               LinkLens
             </span>
           </div>
+          {error && (
+            <div className="alert alert-error shadow-lg mb-4">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                {axios.isAxiosError(error)
+                  ? error.response?.data?.message
+                  : error.message}{" "}
+              </div>
+            </div>
+          )}
           <div className="w-full">
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <h1 className="text-xl font-semibold">
-                    {isPending ? "Signing up..." : "Create an Account"}
-                  </h1>
+                  <h1 className="text-xl font-semibold">Create an Account</h1>
                   <p className="text-sm opacity-70">
                     Join LinkLens and start your learning journey now!
                   </p>
@@ -130,7 +152,13 @@ function SignupPage() {
                   </div>
                 </div>
                 <button type="submit" className="btn btn-primary w-full">
-                  Create Account
+                  {isPending ? (
+                    <span className="loading loading-spinner loading-sm">
+                      Signing up...
+                    </span>
+                  ) : (
+                    "Create Account"
+                  )}
                 </button>
                 <div className="text-center mt-4">
                   <span className="text-sm opacity-70">
