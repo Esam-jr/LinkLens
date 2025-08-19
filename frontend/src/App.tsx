@@ -26,6 +26,22 @@ function App() {
 
   const authUser = authData?.user;
 
+  if (isLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <p className="text-red-500">Error loading user data</p>
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen">
       <Routes>
