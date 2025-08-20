@@ -8,20 +8,13 @@ import ChatPage from "./pages/ChatPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "./lib/axios.ts";
 import PageLoader from "./components/PageLoader.tsx";
+import { getAuthUser } from "./lib/api.ts";
 
 function App() {
-  const {
-    data: authData,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: authData, isLoading } = useQuery({
     queryKey: ["authUser"],
-    queryFn: async () => {
-      const res = await axiosInstance.get("/auth/me");
-      return res.data;
-    },
+    queryFn: getAuthUser,
     retry: false,
   });
 
