@@ -12,6 +12,10 @@ import useAuthUser from "./hooks/useAuthUser.ts";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
+
+  const isAuthenticated = Boolean(authUser);
+  const isOnboarded = authUser?.isOnboarded;
+
   if (isLoading) {
     return <PageLoader />;
   }
@@ -21,32 +25,40 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+          element={
+            isAuthenticated && isOnboarded ? (
+              <HomePage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
         />
         <Route
           path="/signup"
-          element={!authUser ? <SignupPage /> : <Navigate to={"/"} />}
+          element={!isAuthenticated ? <SignupPage /> : <Navigate to={"/"} />}
         />
         <Route
           path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+          element={!isAuthenticated ? <LoginPage /> : <Navigate to={"/"} />}
         />
         <Route
           path="/onboarding"
-          element={authUser ? <OnboardingPage /> : <Navigate to={"/login"} />}
+          element={
+            isAuthenticated ? <OnboardingPage /> : <Navigate to={"/login"} />
+          }
         />
         <Route
           path="/call"
-          element={authUser ? <Callpage /> : <Navigate to={"/login"} />}
+          element={isAuthenticated ? <Callpage /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/chat"
-          element={authUser ? <ChatPage /> : <Navigate to={"/login"} />}
+          element={isAuthenticated ? <ChatPage /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/notifications"
           element={
-            authUser ? <NotificationsPage /> : <Navigate to={"/login"} />
+            isAuthenticated ? <NotificationsPage /> : <Navigate to={"/login"} />
           }
         />
       </Routes>
