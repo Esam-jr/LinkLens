@@ -7,19 +7,11 @@ import Callpage from "./pages/Callpage";
 import ChatPage from "./pages/ChatPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import { Toaster } from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
 import PageLoader from "./components/PageLoader.tsx";
-import { getAuthUser } from "./lib/api.ts";
+import useAuthUser from "./hooks/useAuthUser.ts";
 
 function App() {
-  const { data: authData, isLoading } = useQuery({
-    queryKey: ["authUser"],
-    queryFn: getAuthUser,
-    retry: false,
-  });
-
-  const authUser = authData?.user;
-
+  const { isLoading, authUser } = useAuthUser();
   if (isLoading) {
     return <PageLoader />;
   }
