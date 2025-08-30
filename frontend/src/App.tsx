@@ -35,16 +35,36 @@ function App() {
         />
         <Route
           path="/signup"
-          element={!isAuthenticated ? <SignupPage /> : <Navigate to={"/"} />}
+          element={
+            !isAuthenticated ? (
+              <SignupPage />
+            ) : (
+              <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+            )
+          }
         />
         <Route
           path="/login"
-          element={!isAuthenticated ? <LoginPage /> : <Navigate to={"/"} />}
+          element={
+            !isAuthenticated ? (
+              <LoginPage />
+            ) : (
+              <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+            )
+          }
         />
         <Route
           path="/onboarding"
           element={
-            isAuthenticated ? <OnboardingPage /> : <Navigate to={"/login"} />
+            isAuthenticated ? (
+              isOnboarded ? (
+                <Navigate to={"/"} />
+              ) : (
+                <OnboardingPage />
+              )
+            ) : (
+              <Navigate to={"/"} />
+            )
           }
         />
         <Route
