@@ -57,13 +57,13 @@ function App() {
           path="/onboarding"
           element={
             isAuthenticated ? (
-              isOnboarded ? (
-                <Navigate to={"/"} />
-              ) : (
+              !isOnboarded ? (
                 <OnboardingPage />
+              ) : (
+                <Navigate to="/" />
               )
             ) : (
-              <Navigate to={"/"} />
+              <Navigate to="/login" />
             )
           }
         />
