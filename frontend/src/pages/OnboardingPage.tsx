@@ -6,9 +6,9 @@ import type { AxiosError } from "axios";
 import { completeOnboarding } from "../lib/api.ts";
 import {
   CameraIcon,
+  Earth,
   LoaderIcon,
   MapPinIcon,
-  ShipWheelIcon,
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants/constants.ts";
@@ -227,7 +227,7 @@ const OnboardingPage = () => {
             >
               {!isPending ? (
                 <>
-                  <ShipWheelIcon className="size-5 mr-2" />
+                  <Earth className="size-5 mr-2" />
                   Complete Onboarding
                 </>
               ) : (
