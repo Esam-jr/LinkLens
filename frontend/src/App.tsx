@@ -14,7 +14,7 @@ function App() {
   const { isLoading, authUser } = useAuthUser();
 
   const isAuthenticated = Boolean(authUser);
-  const isOnboarded = authUser?.isOnboarded;
+  const isOnboarded = authUser?.isOnbording;
 
   if (isLoading) {
     return <PageLoader />;
