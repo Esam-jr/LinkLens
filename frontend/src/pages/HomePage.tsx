@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
+import { capitialize } from "../lib/utils";
 
 interface Person {
   _id: string;
@@ -201,8 +202,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-const capitialize = (str: string) => {
-  if (!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
