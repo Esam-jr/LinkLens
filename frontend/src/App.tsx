@@ -9,6 +9,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.tsx";
 import useAuthUser from "./hooks/useAuthUser.ts";
+import Layout from "./components/Layout.tsx";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -27,7 +28,9 @@ function App() {
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <HomePage />
+              <Layout>
+                <HomePage />
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
