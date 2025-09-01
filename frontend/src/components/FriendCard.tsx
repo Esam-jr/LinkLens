@@ -49,10 +49,6 @@ function FriendCard({ friend }: FriendCardProps) {
 }
 export default FriendCard;
 
-/**
- * Returns an <img> element with a flag icon for the given language,
- * or null if no match is found.
- */
 export function getLanguageFlag(language: string) {
   if (!language) return null;
 

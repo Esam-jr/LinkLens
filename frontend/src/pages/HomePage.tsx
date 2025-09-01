@@ -61,7 +61,9 @@ function HomePage() {
   useEffect(() => {
     const outgoingIds = new Set();
     if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
-      outgoingFriendReqs.forEach((req: any) => outgoingIds.add(req.id));
+      outgoingFriendReqs.forEach((req: any) =>
+        outgoingIds.add(req.recipient._id)
+      );
       setOutgoingRequestsId(outgoingIds);
     }
   }, [outgoingFriendReqs]);
