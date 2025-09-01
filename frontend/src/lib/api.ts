@@ -35,11 +35,11 @@ export const getUserFriends = async () => {
 };
 export const getRecommendedUsers = async () => {
   const res = await axiosInstance.get("/users");
-  return res.data;
+  return res.data?.recommendedUsers || [];
 };
 export const getoutgoingFriendReqs = async () => {
   const res = await axiosInstance.get("/users/outgoing-friend-requests");
-  return res.data;
+  return res.data?.outgoingReqs || [];
 };
 
 export const sendFriendRequest = async (userId: string) => {
