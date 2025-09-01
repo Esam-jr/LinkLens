@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router";
 import { signup } from "../lib/api";
 import axios from "axios";
+import { useThemeStore } from "../store/useThemeStore";
 
 function SignupPage() {
   const [signupData, setSignupData] = useState({
@@ -29,11 +30,12 @@ function SignupPage() {
     e.preventDefault();
     signupMutation(signupData);
   };
+  const { theme } = useThemeStore();
 
   return (
     <div
       className="h-screen flex items-center justify-center p-4 md:p-8 sm:p-6"
-      data-theme="bumblebee"
+      data-theme={theme}
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* Left side with */}

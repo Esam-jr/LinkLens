@@ -12,6 +12,7 @@ import {
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants/constants.ts";
+import { useThemeStore } from "../store/useThemeStore.ts";
 
 type ApiErrorResponse = { message: string };
 
@@ -69,11 +70,12 @@ const OnboardingPage = () => {
     setFormState({ ...formState, profilePic: randomAvatar });
     toast.success("Random profile picture generated!");
   };
+  const { theme } = useThemeStore();
 
   return (
     <div
       className="min-h-screen bg-base-100 flex items-center justify-center p-4"
-      data-theme="bumblebee"
+      data-theme={theme}
     >
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">

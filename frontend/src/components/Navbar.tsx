@@ -4,6 +4,7 @@ import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../lib/api";
+import { useThemeStore } from "../store/useThemeStore";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();
@@ -15,11 +16,12 @@ const Navbar = () => {
     mutationFn: logout,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
   });
+  const { theme } = useThemeStore();
 
   return (
     <nav
       className="bg-base-200 border-b border-base-300 sticky top-0 z-30 h-16 flex items-center"
-      data-theme="bumblebee"
+      data-theme={theme}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-end w-full">

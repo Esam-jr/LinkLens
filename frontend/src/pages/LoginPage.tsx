@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login } from "../lib/api.ts";
 import type { AxiosError } from "axios";
+import { useThemeStore } from "../store/useThemeStore.ts";
 
 type ApiErrorResponse = { message: string };
 
@@ -32,11 +33,12 @@ const LoginPage = () => {
     e.preventDefault();
     loginMutation(loginData);
   };
+  const { theme } = useThemeStore();
 
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="bumblebee"
+      data-theme={theme}
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* LOGIN FORM SECTION */}
