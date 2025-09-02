@@ -317,7 +317,7 @@ const LandingPage = () => {
                   ))}
                 </div>
                 <span className="text-sm opacity-70">
-                  Trusted by 50,000+ learners
+                  Trusted by many learners
                 </span>
               </div>
 
