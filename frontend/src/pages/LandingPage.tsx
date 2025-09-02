@@ -338,7 +338,7 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <Link to="/signup" className="btn btn-primary btn-lg group">
                   <Play className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-                  Start Free Trial
+                  Get Started
                 </Link>
                 <button className="btn btn-outline btn-lg group">
                   <Video className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />

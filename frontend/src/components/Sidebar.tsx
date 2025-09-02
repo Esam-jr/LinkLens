@@ -1,9 +1,14 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, Earth, HomeIcon, UsersIcon } from "lucide-react";
+import { BellIcon, Earth, HomeIcon, UsersIcon, X } from "lucide-react";
 import { useThemeStore } from "../store/useThemeStore";
 
-const Sidebar = () => {
+type SidebarProps = {
+  className?: string;
+  onClose?: () => void;
+};
+
+const Sidebar = ({ className, onClose }: SidebarProps) => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -11,16 +16,30 @@ const Sidebar = () => {
 
   return (
     <aside
-      className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0"
+      className={
+        className ??
+        "w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0"
+      }
       data-theme={theme}
     >
       <div className="p-5 border-b border-base-300">
-        <Link to="/" className="flex items-center gap-2.5">
-          <Earth className="size-9 text-primary" />
-          <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-            LinkLens
-          </span>
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5">
+            <Earth className="size-9 text-primary" />
+            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
+              LinkLens
+            </span>
+          </Link>
+          {onClose && (
+            <button
+              className="btn btn-ghost btn-circle lg:hidden"
+              onClick={onClose}
+              aria-label="Close sidebar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
