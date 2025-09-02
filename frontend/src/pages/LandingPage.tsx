@@ -361,7 +361,7 @@ const LandingPage = () => {
             <div className="relative">
               <div className="relative z-10">
                 <img
-                  src="/i2.png"
+                  src="https://images.pexels.com/photos/5676744/pexels-photo-5676744.jpeg?auto=compress&cs=tinysrgb&w=800"
                   alt="Language learning conversation"
                   className="rounded-2xl shadow-2xl w-full h-auto object-cover"
                 />
@@ -479,21 +479,48 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-primary-content">
+      {/* CTA Section */}
+      <section className="relative py-24 bg-base-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* CTA Content */}
             <div>
-              <div className="text-4xl font-bold mb-2">50K+</div>
-              <div className="text-lg opacity-90">Active Users</div>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+                Ready to Start Learning?
+              </h2>
+              <p className="text-lg opacity-80 mb-8 max-w-xl">
+                Set up your profile and start your first real conversation in
+                minutes. Learn naturally with immersive calls and messages
+                tailored to your goals.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/signup" className="btn btn-primary btn-lg">
+                  Get Started
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link to="/login" className="btn btn-ghost btn-lg">
+                  Sign In
+                </Link>
+              </div>
             </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">100+</div>
-              <div className="text-lg opacity-90">Countries</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">1M+</div>
-              <div className="text-lg opacity-90">Conversations</div>
+
+            {/* Visuals */}
+            <div className="relative">
+              <div className="absolute -z-10 -top-10 -left-10 h-56 w-56 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 blur-3xl"></div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-base-300">
+                <img
+                  src="/img1.jpeg"
+                  alt="Practice session"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-8 -right-8 w-2/3 md:w-1/2 aspect-[4/3] rounded-2xl overflow-hidden shadow-xl ring-1 ring-base-300">
+                <img
+                  src="/img2.jpeg"
+                  alt="Language partners"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -533,29 +560,6 @@ const LandingPage = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-primary-content">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Start Learning?</h2>
-          <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-            Join our global community today and connect with language partners
-            from around the world. It's free to get started!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/signup" className="btn btn-accent btn-lg">
-              Start Your Journey
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              to="/login"
-              className="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-primary"
-            >
-              Sign In
-            </Link>
           </div>
         </div>
       </section>
