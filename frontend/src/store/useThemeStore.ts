@@ -6,7 +6,7 @@ type Store = {
 };
 
 export const useThemeStore = create<Store>()((set) => ({
-  theme: localStorage.getItem("theme") || "bumblebee",
+  theme: localStorage.getItem("theme") || "cupcake",
   setTheme: (newTheme) => {
     localStorage.setItem("theme", newTheme);
     set({ theme: newTheme });
