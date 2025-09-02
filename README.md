@@ -158,10 +158,4 @@ Your actual scripts are defined in the respective package.json files in frontend
 
 
 ## License
-MIT License. See LICENSE file if present, or treat this as MIT by default.
-
-
-## Acknowledgements
-- Stream Chat for realtime messaging
-- DaisyUI/Tailwind for rapid UI theming
-- Lucide Icons for iconography
+MIT License.
