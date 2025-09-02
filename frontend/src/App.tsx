@@ -6,6 +6,7 @@ import OnboardingPage from "./pages/OnboardingPage.tsx";
 import Callpage from "./pages/Callpage";
 import ChatPage from "./pages/ChatPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import LandingPage from "./pages/LandingPage";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.tsx";
 import useAuthUser from "./hooks/useAuthUser.ts";
@@ -30,11 +31,23 @@ function App() {
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
+              <Navigate to="/home" />
+            ) : !isAuthenticated ? (
+              <LandingPage />
+            ) : (
+              <Navigate to="/onboarding" />
+            )
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            isAuthenticated && isOnboarded ? (
               <Layout showSidebar={true}>
                 <HomePage />
               </Layout>
             ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+              <Navigate to={!isAuthenticated ? "/" : "/onboarding"} />
             )
           }
         />
@@ -44,7 +57,7 @@ function App() {
             !isAuthenticated ? (
               <SignupPage />
             ) : (
-              <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+              <Navigate to={isOnboarded ? "/home" : "/onboarding"} />
             )
           }
         />
@@ -54,7 +67,7 @@ function App() {
             !isAuthenticated ? (
               <LoginPage />
             ) : (
-              <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+              <Navigate to={isOnboarded ? "/home" : "/onboarding"} />
             )
           }
         />
@@ -65,10 +78,10 @@ function App() {
               !isOnboarded ? (
                 <OnboardingPage />
               ) : (
-                <Navigate to="/" />
+                <Navigate to="/home" />
               )
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/" />
             )
           }
         />
@@ -80,7 +93,7 @@ function App() {
                 <Callpage />
               </Layout>
             ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+              <Navigate to={!isAuthenticated ? "/" : "/onboarding"} />
             )
           }
         />
@@ -92,7 +105,7 @@ function App() {
                 <ChatPage />
               </Layout>
             ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+              <Navigate to={!isAuthenticated ? "/" : "/onboarding"} />
             )
           }
         />
@@ -104,7 +117,7 @@ function App() {
                 <NotificationsPage />
               </Layout>
             ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+              <Navigate to={!isAuthenticated ? "/" : "/onboarding"} />
             )
           }
         />
