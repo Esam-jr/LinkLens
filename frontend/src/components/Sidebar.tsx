@@ -24,7 +24,7 @@ const Sidebar = ({ className, onClose }: SidebarProps) => {
     >
       <div className="p-5 border-b border-base-300">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
+          <Link to="/home" className="flex items-center gap-2.5">
             <Earth className="size-9 text-primary" />
             <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
               LinkLens
@@ -44,9 +44,9 @@ const Sidebar = ({ className, onClose }: SidebarProps) => {
 
       <nav className="flex-1 p-4 space-y-1">
         <Link
-          to="/"
+          to="/home"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-            currentPath === "/" ? "btn-active" : ""
+            currentPath === "/home" ? "btn-active" : ""
           }`}
         >
           <HomeIcon className="size-5 text-base-content opacity-70" />
